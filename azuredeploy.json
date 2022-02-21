@@ -230,7 +230,7 @@
           "roles": [
             {
               "name": "edgenode",
-              "targetInstanceCount": "[parameters('EdgeNodeInstanceCount')]",
+              "targetInstanceCount": "[int(parameters('EdgeNodeInstanceCount'))]",
               "hardwareProfile": {
                 "vmSize": "[parameters('EdgeNodeVirtualMachineSize')]"
               }
