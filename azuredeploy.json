@@ -269,12 +269,6 @@
               "targetInstanceCount": "[int(parameters('EdgeNodeInstanceCount'))]",
               "hardwareProfile": {
                 "vmSize": "[parameters('EdgeNodeVirtualMachineSize')]"
-              },
-              "osProfile": {
-                "linuxOperatingSystemProfile": {
-                  "username": "[parameters('sshUserName')]",
-                  "password": "[parameters('sshPassword')]"
-                }
               }
             }
           ]
