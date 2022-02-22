@@ -105,6 +105,24 @@
         "description": "This is the worerdnode Azure Virtual Machine size, and will affect the cost. If you don't know, just leave the default value."
       }
     },
+    "ZookeeperNodeVirtualMachineSize": {
+      "type": "string",
+      "defaultValue": "Standard_E8_v3",
+      "allowedValues": [
+        "Standard_A4_v2",
+        "Standard_A8_v2",
+        "Standard_E2_v3",
+        "Standard_E4_v3",
+        "Standard_E8_v3",
+        "Standard_E16_v3",
+        "Standard_E20_v3",
+        "Standard_E32_v3",
+        "Standard_E48_v3"
+      ],
+      "metadata": {
+        "description": "This is the zookeeper node in Azure Virtual Machine size, and will affect the cost. If you don't know, just leave the default value."
+      }
+    },
     "EdgeNodeVirtualMachineSize": {
       "type": "string",
       "defaultValue": "Standard_E4_v3",
@@ -166,7 +184,7 @@
         "clusterVersion": "4.0",
         "osType": "Linux",
         "clusterDefinition": {
-          "kind": "hadoop",
+          "kind": "kafka",
           "configurations": {
             "gateway": {
               "restAuthCredential.isEnabled": true,
@@ -206,6 +224,24 @@
               "hardwareProfile": {
                 "vmSize": "[parameters('WorkerNodeVirtualMachineSize')]"
               },
+              "dataDisksGroups": [
+                {
+                  "disksPerNode": 1
+                }
+              ],
+              "osProfile": {
+                "linuxOperatingSystemProfile": {
+                  "username": "[parameters('sshUserName')]",
+                  "password": "[parameters('sshPassword')]"
+                }
+              }
+            },
+            {
+              "name": "zookeepernode",
+              "targetInstanceCount": 3,
+              "hardwareProfile": {
+                "vmSize": "[parameters('ZookeeperNodeVirtualMachineSize')]"
+              },
               "osProfile": {
                 "linuxOperatingSystemProfile": {
                   "username": "[parameters('sshUserName')]",
@@ -233,6 +269,12 @@
               "targetInstanceCount": "[int(parameters('EdgeNodeInstanceCount'))]",
               "hardwareProfile": {
                 "vmSize": "[parameters('EdgeNodeVirtualMachineSize')]"
+              },
+              "osProfile": {
+                "linuxOperatingSystemProfile": {
+                  "username": "[parameters('sshUserName')]",
+                  "password": "[parameters('sshPassword')]"
+                }
               }
             }
           ]
